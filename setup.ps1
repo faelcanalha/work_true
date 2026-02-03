@@ -2,7 +2,7 @@
 
 if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     Write-Host "Requesting administrator privileges..."
-    Start-Process powershell -Verb RunAs "-NoProfile -ExecutionPolicy Bypass -Command `"iex (irm https://seu-link.com/setup.ps1)`""
+    Start-Process powershell -Verb RunAs "-NoProfile -ExecutionPolicy Bypass -Command `"iex (irm https://raw.githubusercontent.com/faelcanalha/work_true/main/setup.ps1)`""
     exit
 }
 
