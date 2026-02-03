@@ -8,8 +8,8 @@ if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 
 # 1. Desabilitar System Protection
 Write-Host "Configuring System Protection..."
-Start-Process "wmic" -ArgumentList "shadowsettings set windowsserver=No" -Wait -NoNewWindow
-Start-Process "wmic" -ArgumentList "shadowstorage delete /nointeractive /on=C:" -Wait -NoNewWindow
+wmic shadowsettings set windowsserver=No
+wmic shadowstorage delete /nointeractive /on=C:
 
 # 2. Desabilitar UAC
 Write-Host "Disable UAC (User Account Control)"
